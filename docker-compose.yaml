@@ -1,0 +1,19 @@
+version: "3.0"
+
+services: 
+  userservice:
+    image: stoplight/prism:3
+    command: "mock -h 0.0.0.0 -d /app/user-service.yaml"
+    volumes:
+      - .:/app
+    ports:
+      - 4010:4010
+
+  feedservice:
+    image: stoplight/prism:3
+    command: "mock -h 0.0.0.0 -d /app/feed-service.yaml"
+    volumes:
+      - .:/app
+    ports:
+      - 4020:4010
+

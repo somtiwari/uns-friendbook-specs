@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: FriendBook Feed Service
+  version: 0.1.0
+  contact: {}
+paths:
+  /user:
+    post:
+      summary: User sign up
+      description: ''
+      parameters: []
+      operationId: signup
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '500':
+          description: Server Error
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+        description: User sign-up information
+        required: false
+  /signin:
+    post:
+      summary: User sign in
+      description: ''
+      parameters: []
+      operationId: signin
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Forbidden
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+        description: email and password
+security: []
+servers: []
+components:
+  links: {}
+  callbacks: {}
+  schemas:
+    User:
+      type: object
+      properties:
+        userid:
+          type: string
+        username:
+          type: string

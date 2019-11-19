@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: FriendBook Feed Service
+  version: 0.1.0
+  contact: {}
+  description: Manages feeds for users.
+paths:
+  /feed:
+    get:
+      summary: gets the most recent posts from the caller and her friends
+      description: ''
+      parameters:
+        - name: startIndex
+          in: query
+          required: false
+          schema:
+            type: string
+            default: '1'
+          description: The location in the feed to start getting posts from.
+        - name: blockSize
+          in: query
+          required: false
+          schema:
+            type: string
+            default: '10'
+          description: The number of posts to get.
+      operationId: getFeed
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FeedPost'
+                minItems: 0
+                maxItems: 100
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Token'
+        description: >-
+          The request body contains the current user token. Unencrypted as of
+          now.
+security: []
+servers: []
+components:
+  links: {}
+  callbacks: {}
+  schemas:
+    Token:
+      type: object
+      properties:
+        userid:
+          type: string
+        username:
+          type: string
+    FeedPost:
+      type: object
+      properties:
+        userid:
+          type: string
+          format: byte
+        username:
+          type: string
+          x-faker: name.firstName
+        content: 
+          type: string
+        timestamp:
+          type: string
+          format: datetime
+  securitySchemes: {}
