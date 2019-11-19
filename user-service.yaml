@@ -9,7 +9,7 @@ paths:
   /user/signin:
     post:
       summary: User sign in
-      description: Login with email and passowd
+      description: Login with email and password
       parameters: []
       operationId: signin
       requestBody:
