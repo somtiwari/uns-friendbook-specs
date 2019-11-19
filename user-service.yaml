@@ -14,7 +14,7 @@ paths:
       operationId: signin
       requestBody:
         content:
-          'application/json':
+          application/json:
             schema:
               type: object
               properties:
@@ -29,19 +29,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  token:
-                    type: object
-                    properties:
-                      userid:
-                        type: string
-                      email:
-                        type: string
-                      name:
-                        type: string
-                      expire:
-                        type: string
+                $ref: '#/components/schemas/UserToken'
         '403':
           description: Forbidden
     parameters: []
@@ -57,41 +45,25 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    email:
-                      type: string
-                    userid:
-                      type: string
+                  $ref: '#/components/schemas/User'
         '403':
           description: Forbidden
       description: Get all users
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                token:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    email:
-                      type: string
-                    userid:
-                      type: string
-                    expiry:
-                      type: string
-              required:
-                - token
+      requestBody: {}
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: token
     post:
-      summary: 'sign up users'
+      summary: sign up users
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserToken'
         '500':
           description: Internal Server Error
       description: Register a new user
@@ -105,14 +77,11 @@ paths:
                   type: string
                 email:
                   type: string
-                userid:
-                  type: string
                 password:
                   type: string
               required:
                 - name
                 - email
-                - userid
                 - password
     delete:
       summary: ''
@@ -126,21 +95,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                token:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    userid:
-                      type: string
-                    email:
-                      type: string
-                    expiry:
-                      type: string
-              required:
-                - token
+              $ref: '#/components/schemas/UserToken'
         description: User token to deactive respective user
   /user/signout:
     post:
@@ -155,21 +110,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                token:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    userid:
-                      type: string
-                    email:
-                      type: string
-                    expiry:
-                      type: string
-              required:
-                - token
+              $ref: '#/components/schemas/UserToken'
 components:
   schemas:
     User:
@@ -178,6 +119,16 @@ components:
         userid:
           type: string
         username:
+          type: string
+    UserToken:
+      title: UserToken
+      type: object
+      properties:
+        userid:
+          type: string
+        username:
+          type: string
+        expiry:
           type: string
   callbacks: {}
   links: {}
