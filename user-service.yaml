@@ -3,54 +3,18 @@ info:
   title: FriendBook Feed Service
   version: 0.1.0
   contact: {}
+  description: desc
+servers: []
 paths:
-  /user:
-    post:
-      summary: User sign up
-      description: ''
-      parameters: []
-      operationId: signup
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '500':
-          description: Server Error
-      requestBody:
-        content:
-          '*/*':
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                email:
-                  type: string
-                password:
-                  type: string
-        description: User sign-up information
-        required: false
-  /signin:
+  /user/signin:
     post:
       summary: User sign in
-      description: ''
+      description: Login with email and passowd
       parameters: []
       operationId: signin
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '403':
-          description: Forbidden
       requestBody:
         content:
-          '*/*':
+          'application/json':
             schema:
               type: object
               properties:
@@ -59,11 +23,154 @@ paths:
                 password:
                   type: string
         description: email and password
-security: []
-servers: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: object
+                    properties:
+                      userid:
+                        type: string
+                      email:
+                        type: string
+                      name:
+                        type: string
+                      expire:
+                        type: string
+        '403':
+          description: Forbidden
+    parameters: []
+  /user:
+    get:
+      summary: get active users
+      tags: []
+      responses:
+        '200':
+          description: OK - all active users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    userid:
+                      type: string
+        '403':
+          description: Forbidden
+      description: Get all users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    userid:
+                      type: string
+                    expiry:
+                      type: string
+              required:
+                - token
+    post:
+      summary: 'sign up users'
+      responses:
+        '201':
+          description: Created
+        '500':
+          description: Internal Server Error
+      description: Register a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                userid:
+                  type: string
+                password:
+                  type: string
+              required:
+                - name
+                - email
+                - userid
+                - password
+    delete:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: Forbidden
+      description: Deactivate user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    userid:
+                      type: string
+                    email:
+                      type: string
+                    expiry:
+                      type: string
+              required:
+                - token
+        description: User token to deactive respective user
+  /user/signout:
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: Forbidden
+      description: Sign Out an user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    userid:
+                      type: string
+                    email:
+                      type: string
+                    expiry:
+                      type: string
+              required:
+                - token
 components:
-  links: {}
-  callbacks: {}
   schemas:
     User:
       type: object
@@ -72,3 +179,6 @@ components:
           type: string
         username:
           type: string
+  callbacks: {}
+  links: {}
+security: []
