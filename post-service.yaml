@@ -1,0 +1,176 @@
+openapi: 3.0.0
+info:
+  title: post
+  version: '1.0'
+servers:
+  - url: 'http://localhost:4030'
+paths:
+  /post:
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK Existing post
+          content:
+            application/json:
+              schema:
+                title: post
+                type: object
+                properties:
+                  postid:
+                    type: string
+                  userid:
+                    type: string
+                  content:
+                    type: string
+                  timestamp:
+                    type: string
+        '201':
+          description: OK New post
+          content:
+            application/json:
+              schema:
+                title: post
+                type: object
+                properties:
+                  postid:
+                    type: string
+                  userid:
+                    type: string
+                  content:
+                    type: string
+                  timestamp:
+                    type: string
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: object
+                  properties:
+                    userid:
+                      type: string
+                    username:
+                      type: string
+                userid:
+                  type: string
+                content:
+                  type: string
+            examples: {}
+  /delete:
+    delete:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: Forbidden
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: object
+                  properties:
+                    userid:
+                      type: string
+                    username:
+                      type: string
+                userid:
+                  type: string
+                postid:
+                  type: string
+  /modify:
+    put:
+      summary: ''
+      responses:
+        '200':
+          description: OK modified
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: object
+                  properties:
+                    userid:
+                      type: string
+                    username:
+                      type: string
+                userid:
+                  type: string
+                postid:
+                  type: string
+                content:
+                  type: string
+  /get:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: post
+                  type: object
+                  properties:
+                    postid:
+                      type: string
+                    userid:
+                      type: string
+                    content:
+                      type: string
+                    timestamp:
+                      type: string
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: object
+                  properties:
+                    userid:
+                      type: string
+                    username:
+                      type: string
+                userids:
+                  type: array
+                  items: {}
+                startindex:
+                  type: string
+                blocksize:
+                  type: string
+components:
+  schemas:
+    post:
+      title: post
+      type: object
+      properties:
+        postid:
+          type: string
+        userid:
+          type: string
+        content:
+          type: string
+        timestamp:
+          type: string
