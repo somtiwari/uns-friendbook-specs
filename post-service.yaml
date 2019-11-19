@@ -9,38 +9,12 @@ paths:
     post:
       summary: ''
       responses:
-        '200':
-          description: OK Existing post
-          content:
-            application/json:
-              schema:
-                title: post
-                type: object
-                properties:
-                  postid:
-                    type: string
-                  userid:
-                    type: string
-                  content:
-                    type: string
-                  timestamp:
-                    type: string
         '201':
           description: OK New post
           content:
             application/json:
               schema:
-                title: post
-                type: object
-                properties:
-                  postid:
-                    type: string
-                  userid:
-                    type: string
-                  content:
-                    type: string
-                  timestamp:
-                    type: string
+                $ref: '#/components/schemas/post'
         '403':
           description: Forbidden
         '404':
@@ -52,17 +26,42 @@ paths:
               type: object
               properties:
                 token:
-                  type: object
-                  properties:
-                    userid:
-                      type: string
-                    username:
-                      type: string
+                  $ref: './user-service.yaml#/components/schemas/UserToken'
                 userid:
                   type: string
                 content:
                   type: string
             examples: {}
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/post'
+        '400':
+          description: Bad Request
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: token
+        - schema:
+            type: string
+          in: query
+          name: userids
+        - schema:
+            type: integer
+          in: query
+          name: startIndex
+        - schema:
+            type: integer
+          in: query
+          name: blockSize
   /delete:
     delete:
       summary: ''
@@ -94,6 +93,10 @@ paths:
       responses:
         '200':
           description: OK modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/post'
         '400':
           description: Bad Request
       requestBody:
@@ -103,62 +106,12 @@ paths:
               type: object
               properties:
                 token:
-                  type: object
-                  properties:
-                    userid:
-                      type: string
-                    username:
-                      type: string
+                  $ref: './user-service.yaml#/components/schemas/UserToken'
                 userid:
                   type: string
                 postid:
                   type: string
                 content:
-                  type: string
-  /get:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  title: post
-                  type: object
-                  properties:
-                    postid:
-                      type: string
-                    userid:
-                      type: string
-                    content:
-                      type: string
-                    timestamp:
-                      type: string
-        '400':
-          description: Bad Request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                token:
-                  type: object
-                  properties:
-                    userid:
-                      type: string
-                    username:
-                      type: string
-                userids:
-                  type: array
-                  items: {}
-                startindex:
-                  type: string
-                blocksize:
                   type: string
 components:
   schemas:
