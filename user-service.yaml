@@ -128,8 +128,11 @@ components:
           type: string
         username:
           type: string
+          x-faker: findName
         expiry:
           type: string
+          format: datetime
+          x-faker: future
   callbacks: {}
   links: {}
 security: []
