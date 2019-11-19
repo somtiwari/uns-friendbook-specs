@@ -24,3 +24,11 @@ services:
       - .:/app
     ports:
       - 4040:4010
+
+  postservice:
+    image: stoplight/prism:3
+    command: "mock -h 0.0.0.0 -d /app/post-service.yaml"
+    volumes: 
+      - .:/app
+    ports:
+      - 4030:4010
